@@ -1,0 +1,12 @@
+<div class="list-group">
+  <div class="card shadow-sm my-2">
+    <div class="card-body">
+      <h5>Categories</h5>
+      <ul class="list-group">
+      {% for category in category_list %}
+        <li class="list-group-item">{{category.name|title}}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

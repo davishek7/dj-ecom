@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cart Summary
+{% endblock %}
+
+{% block content %}
+    <h1 class='mb-3'>Shopping Cart</h1>
+    {% if basket|length == 0 %}
+        <p class='alert alert-info'>Your Cart is empty! <a href="{% url 'shop:index' %}" class='text-info'>Shop</a></p>
+    {% else %}
+
+    <div class="row">
+
+        <div class="col-md-8">
+
+            <ul class="list-group list-group-flush">
+            {% for item in basket %}
+            {% with product=item.product %}
+                <li data-index="{{product.id}}" class="list-group-item product-item">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{product.image.url}}" alt=product.title class='img-fluid rounded'>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{product.get_absolute_url}}" class="text-decoration-none">{{product.title}}</a>
+                        </div>
+                        <div class="col-md-2">₹&nbsp;{{product.price}}</div>
+                        <div class="col-md-2">
+                            <select id="select{{product.id}}" class='form-control'>
+                                <option selected>
+                                    {{item.qty}}
+                                </option>
+                                <option value="">1</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                                <option value="">4</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" id="update-button" data-index="{{product.id}}"
+                                class="btn btn-link btn-sm update-button text-info" title='Update product qunatity'>
+                                <i class="fas fa-check"></i>
+                            </button> 
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" id="delete-button" data-index="{{product.id}}"
+                                class="btn btn-link btn-sm delete-button" title='Remove from cart'>
+                                <i class="fas fa-trash"></i>
+                            </button>                            
+                        </div>
+                    </div>
+                </li>
+            {% endwith %}
+            {% endfor %}
+            </ul>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h2>
+                            <div>Sub Total ({{basket|length}}) item{{basket|length|pluralize}}:</div> 
+                            <div id="subtotal">₹&nbsp;{{basket.get_total_price}}</div>
+                        </h2>
+                    </li>
+                    <li class="list-group-item">
+                        <button class="btn btn-block btn-info" type="button">Proceed to checkout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+  // Delete Item
+  $(document).on('click', '.delete-button', function (e) {
+    e.preventDefault();
+    var prodid = $(this).data('index');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "basket:basket_delete" %}',
+      data: {
+        productid: $(this).data('index'),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: 'post'
+      },
+      success: function (json) {
+        $('.product-item[data-index="' + prodid + '"]').remove();
+        document.getElementById("subtotal").innerHTML = json.subtotal;
+        document.getElementById("basket-qty").innerHTML = json.qty
+        location.reload(true)
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  })
+
+  // Update Item
+  $(document).on('click', '.update-button', function (e) {
+    e.preventDefault();
+    var prodid = $(this).data('index');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "basket:basket_update" %}',
+      data: {
+        productid: $(this).data('index'),
+        productqty: $('#select' + prodid + ' option:selected').text(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("basket-qty").innerHTML = json.qty
+        document.getElementById("subtotal").innerHTML = json.subtotal
+        location.reload(true)
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  })
+</script>
+
+{% endblock %}
