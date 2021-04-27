@@ -146,4 +146,5 @@ CLOUDINARY_STORAGE = {
 
 # Heroku settings
 if os.getcwd() == '/app':
-    DEBUG = False
+    pass
+    # DEBUG = False
