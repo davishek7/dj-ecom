@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .basket import Basket
 from shop.models import Product
 
+@login_required
 def basket_summary(request):
     basket=Basket(request)
     return render(request,'shop/basket/summary.html',{'basket':basket})

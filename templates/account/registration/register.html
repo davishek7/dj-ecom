@@ -9,35 +9,35 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-7 mx-auto">
-                        <form action="." method="post" class="">
+                        <form action="." method="post" class='px-4 pt-4 col-lg-8 mx-auto'>
                             {% csrf_token %}
                             <h3 class="mb-2 font-weight-bold">Create an account</h3>
                             <p class="mb-4">It's free and only takes a minute</p>
 
-                            {% if form.errors %}
-                            <p>Please correct the following errors:</p>
-                            {% for field in form %}
-                            {% if field.errors %}
-                            <div class="alert alert-primary" role='alert'>
-                                {{form.label}}: {{form.errors|striptags}}
-                            </div>
-                            {% endif %}
-                            {% endfor %}
-                            {% endif %}
-                            <label>{{form.user_name.label}}<span class="text-muted small">(Required)</span></label>
+                                {% if form.errors %}
+                                <p>Please correct the following errors:</p>
+                                {% for field in form %}
+                                {% if field.errors %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ field.label }}: {{ field.errors|striptags }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                            <label>{{form.user_name.label}}<span class="text-muted small"> (Required)</span></label>
                             {{form.user_name}}
-                            <label>{{form.email.label}}<span class="text-muted small">(Required)</span></label>
+                            <label>{{form.email.label}}<span class="text-muted small"> (Required)</span></label>
                             {{form.email}}
-                            <label>{{form.password.label}}<span class="text-muted small"></span></label>
+                            <label>{{form.password.label}}<span class="text-muted small"> (Password must be at least 8 characters and 1 digit)</span></label>
                             {{form.password}}
-                            <small class="form-text text-muted mb-4 small">Password must be at least 8 characters and 1 digit</small>
-                            <label>{{form.password2.label}}<span class="text-muted small">(Required)</span></label>
+                            <label>{{form.password2.label}}<span class="text-muted small"> (Required)</span></label>
                             {{form.password2}}
                             <button type="submit" class='btn btn-block btn-info py-2 mb-4 mt-5 fw500 w-100'>
                                 Register
                             </button>
                             <p class="text-center">
-                                <a href="#">Already have an account ?</a>
+                                <a href="{% url 'account:login' %}">Already have an account ?</a>
                             </p>
                         </form>
                     </div>

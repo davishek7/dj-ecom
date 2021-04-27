@@ -20,22 +20,16 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class='fas fa-user-alt'></i>&nbsp;Hello, {{request.user}}</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#"><i class='fas fa-user-cog'></i>&nbsp;Profile</a>
+          <a class="dropdown-item" href="{% url 'account:dashboard' %}"><i class='fas fa-user-cog'></i>&nbsp;Dashboard</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
+          <a class="dropdown-item" href="{% url 'account:logout' %}"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
         </div>
       </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'account:register' %}"><i class="fas fa-sign-in-alt"></i>&nbsp;Register
-        </a>
-      </li>
-      {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'basket:basket_summary' %}"><i class='fas fa-shopping-cart'></i>
           &nbsp;Cart
           {% with total_qty=basket|length %}
-          <span class='badge badge-pill badge-danger' id='basket-qty'>
+          <span class='badge badge-danger rounded' id='basket-qty'>
           {% if total_qty > 0 %}
           {{total_qty}}
           {% else %}
@@ -45,5 +39,22 @@
           {% endwith %}
         </a>
       </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'account:login' %}"><i class="fas fa-sign-in-alt"></i>&nbsp;Login
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-outline-warning btn-sm" href="{% url 'account:register' %}"><i class="fas fa-user-plus"></i>&nbsp;Register
+        </a>
+      </li>
+      {% endif %}
   </div>
 </nav>
+
+<script>
+  $(".nav a").on("click", function(){
+   $(".nav").find(".active").removeClass("active");
+   $(this).parent().addClass("active");
+  });
+</script>

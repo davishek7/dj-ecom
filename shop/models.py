@@ -30,7 +30,7 @@ class Product(models.Model):
 	slug=models.SlugField(max_length=200,unique=True,blank=True,null=True)
 	description = models.TextField(blank=True,null=True)
 	image=models.ImageField(upload_to='thumbnails/')
-	price=models.DecimalField(max_digits=5,decimal_places=2)
+	price=models.DecimalField(max_digits=10,decimal_places=2)
 	in_stock=models.BooleanField(default=True)
 	is_active=models.BooleanField(default=True)
 	created=models.DateTimeField(auto_now_add=True)
@@ -46,14 +46,4 @@ class Product(models.Model):
 
 	def __str__(self):
 		return self.title
-	
-	def save(self,*args,**kwargs):
-		super(Product,self).save(*args,**kwargs)
-
-		img = Image.open(self.image.path)
-
-		if img.height > 510 or img.width > 640:
-			output_size = (510,640)
-			img.thumbnail(output_size)
-			img.save(self.image.path)
 

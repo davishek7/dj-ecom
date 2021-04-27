@@ -8,6 +8,11 @@ django = "*"
 pillow = "*"
 django-countries = "*"
 six = "*"
+whitenoise = "*"
+gunicorn = "*"
+dj-database-url = "*"
+stripe = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 
