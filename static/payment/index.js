@@ -79,7 +79,7 @@ form.addEventListener("submit", function (ev) {
               // payment_intent.succeeded event that handles any business critical
               // post-payment actions.
               window.location.replace(
-                "http://127.0.0.1:8000/payment/orderplaced/"
+                "/payment/orderplaced/"
               );
             }
           }

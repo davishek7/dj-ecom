@@ -29,13 +29,15 @@
         <a class="nav-link" href="{% url 'basket:basket_summary' %}"><i class='fas fa-shopping-cart'></i>
           &nbsp;Cart
           {% with total_qty=basket|length %}
-          <span class='badge badge-danger rounded' id='basket-qty'>
+          <sup>
+          <span class='badge badge-danger badge-pill' id='basket-qty'>
           {% if total_qty > 0 %}
           {{total_qty}}
           {% else %}
           0
           {% endif %}
           </span>
+          </sup>
           {% endwith %}
         </a>
       </li>
@@ -51,10 +53,3 @@
       {% endif %}
   </div>
 </nav>
-
-<script>
-  $(".nav a").on("click", function(){
-   $(".nav").find(".active").removeClass("active");
-   $(this).parent().addClass("active");
-  });
-</script>
